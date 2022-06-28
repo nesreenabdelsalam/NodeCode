@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {userModel} from '../models/userModel.js';
+import {userModel} from '../models/UserModel.js';
 
 const baseurl  = 'mongodb+srv://admin:Xyz78901@globomantics.bbm7o.mongodb.net/SampleDB?retryWrites=true&w=majority';
 
