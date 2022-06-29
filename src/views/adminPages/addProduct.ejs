@@ -18,7 +18,7 @@
 	<header>
 	    <div class="container">
 		    <div class="logo col-md-5 col-sm-5 col-xs-8">
-          <a href="index.html"><img src="/images/Globo-Logo-white.svg" alt="logo"/></a>
+          <a href="/"><img src="/images/Globo-Logo-white.svg" alt="logo"/></a>
           <span class="text">MANIACALLY TAKING TECH TO THE GLOBE</span>
 			  </div>
 			  <div class="mobile-togle col-md-12 col-sm-12 col-xs-12">
@@ -73,9 +73,6 @@
                   <%}else{ %>
                     <form action="/admin/addNew" method="post">
                   <%} %>
-                   
-                      <label for="id">ID:</label>
-                      <input type="text" id="id" name="id" style="color:black" value='<%= product.id %>' /><br>
                       <label for="name">Name:</label>
                       <input type="text" id="name" name="name" style="color:black" value='<%= product.name %>' /><br><br>
                       <label for="image">Image:</label>

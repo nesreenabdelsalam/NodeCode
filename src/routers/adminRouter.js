@@ -60,8 +60,8 @@ adminRouter.route('/edit/:id').get((req, res)=>{
     console.log('try to render products');
     const _id = req.params.id;
     
-    const {id, name, image, description} = req.body;
-    const product = {id, name, image, description};
+    const { name, image, description} = req.body;
+    const product = { name, image, description};
 
     productService().findByIdAndUpdate(_id, product).then(data => {
         console.log(data);

@@ -4,9 +4,6 @@ const Schema = mongoose.Schema;
 
 let user = new Schema(
   {
-    id:{
-      type: Schema.Types.ObjectId
-    },
     name: {
       type: String
     },

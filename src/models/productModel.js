@@ -4,9 +4,6 @@ const Schema = mongoose.Schema;
 
 let product = new Schema(
   {
-    id:{
-      type: String
-    },
     name: {
       type: String
     },
