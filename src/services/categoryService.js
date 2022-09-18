@@ -13,13 +13,29 @@ connection.once("open", function() {
 export function categoryService() {
   
   //get all categories from database
-  async function getCategories() {
-      return await categoryModel().find({});
+  function getCategories(req,res) {
+      return categoryModel().find({}).then(categories => {
+        res.status(200).json({"success":true, "result":categories});
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
   }
 
   // insert a new product to database
-  async function insertCategory(data) {
-      return await categoryModel().create(data);
+  function insertCategory(req,res) {
+    
+    const {name} = req.body;
+    const category = {name};
+
+      return categoryModel().create(category).then(category => {
+        res.status(200).json({"success":true, "result":category});
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
   }
   return { getCategories, insertCategory};
 }
