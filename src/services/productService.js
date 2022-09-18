@@ -47,12 +47,12 @@ export function productService() {
   function put(req,res){
     const pid = req.params.id;
     const {name, image, price, quantity, categoryid} = req.body;
-    const product = {pid, name, image, price, quantity, categoryid};
+    const product = {name, image, price, quantity, categoryid};
 
     return  productModel().findOneAndReplace()
-    .findOneAndUpdate({"_id":new mongoose.Types.ObjectId(pid)},product)
-    .then(product => {
-      res.status(200).json({"success":true, "result":product});
+    .findOneAndUpdate({"_id":new mongoose.Types.ObjectId(pid)},product,{new: true})
+    .then(data => {
+      res.status(200).json({"success":true, "result":data});
       })
       .catch(err => {
         console.error(err);
@@ -100,7 +100,7 @@ export function productService() {
     
         product[key] = value;
       });
-      productModel().findOneAndUpdate({"_id":new mongoose.Types.ObjectId(id)},product)
+      productModel().findOneAndUpdate({"_id":new mongoose.Types.ObjectId(id)},product,{new: true})
       .then(product => {
         res.status(200).json({"success":true, "result":product});
         })

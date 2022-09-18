@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 var corsOptions = {
-    origin: '*'
+    origin: 'https://node-rest-api-assignment.herokuapp.com'
   }
 app.use(cors(corsOptions));
 
