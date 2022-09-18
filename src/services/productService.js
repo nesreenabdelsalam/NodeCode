@@ -13,31 +13,104 @@ connection.once("open", function() {
 export function productService() {
   
   //get all products from database
-  async function getProducts() {
-      return await productModel().find({});
+  function get(req,res) {
+    const query = {};
+
+    if(req.query.categoryid){
+      query.categoryid = req.query.categoryid;
+    }
+
+    productModel().find(query).then(products => {
+      res.status(200).json({"success":true, "result":products});
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({"success":false, "messages":[err]});
+    });
   }
 
   // insert a new product to database
-  async function insertProduct(data) {
-    return await productModel().create(data);
+  function post(req, res){ 
+    const {name, image, price, quantity, categoryid} = req.body;
+    const product = {name, image, price, quantity, categoryid};
+  
+    productModel().create(product).then(data => {
+      res.status(200).json({"success":true, "result":data});
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
   }
 
   //find item by Id and update the item
-  async function findByIdAndUpdate(id, product){
-    return await productModel().findOneAndUpdate({"_id":new mongoose.Types.ObjectId(id)},product);
+  function put(req,res){
+    const pid = req.params.id;
+    const {name, image, price, quantity, categoryid} = req.body;
+    const product = {pid, name, image, price, quantity, categoryid};
+
+    return  productModel().findOneAndReplace()
+    .findOneAndUpdate({"_id":new mongoose.Types.ObjectId(pid)},product)
+    .then(product => {
+      res.status(200).json({"success":true, "result":product});
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
   }
 
   //find item by Id
-  async function findById(id){
-    return await productModel().findOne({"_id":new mongoose.Types.ObjectId(id)});
+  function findById(req, res){
+    const id = req.params.id;
+    return productModel().findOne({"_id":new mongoose.Types.ObjectId(id)}).then(product => {
+      res.status(200).json({"success":true, "result":product});
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
   }
+
 
    //delete item by Id
-   async function deleteById(id){
-    return await productModel().deleteOne({"_id":new mongoose.Types.ObjectId(id)});
+   function deleteById(req,res){
+    const id = req.params.id;
+    return productModel().deleteOne({"_id":new mongoose.Types.ObjectId(id)}).then(product => {
+      res.status(200).json({"success":true, "result":product});
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
+  }
+
+  //patch item by Id
+  function patch(req,res){
+    const id = req.params.id;
+    return productModel().findOne({"_id":new mongoose.Types.ObjectId(id)})
+    .then(product => {
+      if(req.body._id)
+      {
+        delete req.body._id;
+      }
+      Object.entries(req.body).forEach(item => {
+        const key = item[0];
+        const value = item[1];
+    
+        product[key] = value;
+      });
+      productModel().findOneAndUpdate({"_id":new mongoose.Types.ObjectId(id)},product)
+      .then(product => {
+        res.status(200).json({"success":true, "result":product});
+        })
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({"success":false, "messages":[err]});
+      });
   }
   
-  return { getProducts, insertProduct , findByIdAndUpdate, findById, deleteById};
+  return { get, post , put, findById, deleteById, patch};
 }
 
-//module.exports = productService();

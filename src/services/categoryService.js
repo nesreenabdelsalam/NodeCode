@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {userModel} from '../models/UserModel.js';
+import {categoryModel} from '../models/categoryModel.js';
 
 const baseurl  = 'mongodb+srv://admin:Xyz78901@globomantics.bbm7o.mongodb.net/SampleDB?retryWrites=true&w=majority';
 
@@ -10,20 +10,17 @@ connection.once("open", function() {
   console.log("MongoDB database connection established successfully");
 });
 
-export function userService() {
+export function categoryService() {
   
-  //get all products from database
-  async function getUserByEmail(email) {
-    return await userModel().findOne({email});
+  //get all categories from database
+  async function getCategories() {
+      return await categoryModel().find({});
   }
 
   // insert a new product to database
-  async function insertUser(data) {
-    return await userModel().create(data);
+  async function insertCategory(data) {
+      return await categoryModel().create(data);
   }
-
-  
-  return { getUserByEmail, insertUser };
+  return { getCategories, insertCategory};
 }
 
-//module.exports = productService();

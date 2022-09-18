@@ -10,8 +10,14 @@ let product = new Schema(
     image: {
       type: String
     },
-    description: {
+    price: {
       type: String
+    },
+    quantity: {
+      type: Number
+    },
+    categoryid:{
+      type: Schema.Types.ObjectId
     }
   },
   { collection: "products" }
