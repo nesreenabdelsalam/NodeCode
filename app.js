@@ -32,6 +32,12 @@ app.use(cors(corsOptions));
 app.use('/products',productRouter);
 app.use('/categories',categoryRouter);
 
+app.set('views','./src/views');
+app.set('view engine', 'ejs');
+app.get('/',(req, res)=>{
+  res.render('index');
+});
+
 app.listen(PORT,()=>{
     debug(`Listenning on port ${chalk.green('4000')}`);
 });
